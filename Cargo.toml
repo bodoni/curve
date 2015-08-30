@@ -7,3 +7,6 @@ repository = "https://github.com/bodoni/curve"
 homepage = "https://github.com/bodoni/curve"
 documentation = "https://bodoni.github.io/curve"
 description = "The package provides curves."
+
+[dependencies.num]
+default-features = false
