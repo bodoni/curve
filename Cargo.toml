@@ -1,0 +1,9 @@
+[package]
+name = "curve"
+version = "0.1.0"
+authors = ["Ivan Ukhov <ivan.ukhov@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/bodoni/curve"
+homepage = "https://github.com/bodoni/curve"
+documentation = "https://bodoni.github.io/curve"
+description = "The package provides curves."
