@@ -1,6 +1,6 @@
 //! Curves.
 
-extern crate num;
+extern crate num_traits as num;
 
 use num::Float;
 use std::marker::PhantomData;

@@ -8,5 +8,5 @@ homepage = "https://github.com/bodoni/curve"
 documentation = "https://bodoni.github.io/curve"
 description = "The package provides curves."
 
-[dependencies.num]
-default-features = false
+[dependencies]
+num-traits = "0.1"
