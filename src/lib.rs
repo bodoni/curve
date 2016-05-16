@@ -8,8 +8,11 @@ use std::marker::PhantomData;
 /// A type identifying itself as a curve.
 pub trait Curve<T: Float> {
     /// Evalute the curve at a point in `[0, 1]`.
-    fn evaluate(&self, T) -> (T, T);
+    fn evaluate(&self, T) -> Point<T>;
 }
+
+/// A point.
+pub type Point<T> = (T, T);
 
 /// A trace of a curve.
 #[derive(Clone, Copy, Debug)]
@@ -30,7 +33,7 @@ impl<'l, T: Float, C: Curve<T>> Trace<'l, T, C> {
 macro_rules! implement {
     ($float:ty) => (
         impl<'l, T: Curve<$float>> Iterator for Trace<'l, $float, T> {
-            type Item = ($float, $float);
+            type Item = Point<$float>;
 
             fn next(&mut self) -> Option<Self::Item> {
                 let position = self.position;
