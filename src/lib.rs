@@ -5,7 +5,7 @@ extern crate num_traits as num;
 use num::Float;
 use std::marker::PhantomData;
 
-/// A type identifying itself as a curve.
+/// A curve.
 pub trait Curve<T: Float> {
     /// Evalute the curve at a point in `[0, 1]`.
     fn evaluate(&self, T) -> Point<T>;
