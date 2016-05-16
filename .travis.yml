@@ -6,12 +6,13 @@ rust:
   - nightly
 
 after_success:
-  - curl https://bodoni.github.io/travis/after_success.sh | bash
+  - if [ "$TRAVIS_RUST_VERSION" == "nightly" ]; then
+      curl https://bodoni.github.io/travis/update_documentation.sh | bash;
+    fi
 
 env:
   global:
-    - RUSTDOC_VERSION=nightly
-    - secure: w0+hllO0Fss63Gz/y9OwTbR75Ft3edgOFsKUiE7najtRmGZTGEC+Bi4tgN1h/UtLzgHL8YCRrMorQKlFqNTbasabzyGRSkWILe5Gj1Dl3Y5qqKeK+H5aEboqjQKu/HoyB1e4OrVHlSDw+KhntI75eNdVvjSgGAm55+0vmGMfKhL2m66GFvHUDSXhf12qy/DwUqEPxDEEHuHVJNcDXCx2BG0mTxZXGHppaUyTfgsczONCNXZIH0Ux0cKTatq4iQVM0TAsCbEli0JgGynj4J9t8G+uMnICR7BgJEOmDSw/3qrlNX8b2GTSC+r5YTmXTmSuGwTpCK9Z4pdWTz43Dy6nBGL/O8V+6/Oc38r5xJgjSlzu6DwRe5Q2enruhejHJw7+N2n3KAhmTyXZxLgquxTv8JOMM5BlfgE4Ys6FLeSs/lvqS8XskJ7xhjwhcZ80OPajaskuh/3yU9Ei3YmStU8XEOaYLSVUX3XlPm33KNifYOpWgD+5iRnNwaPsYgn5qloonHkCXnb/xVnYN1ZbByUIBSWiFSSc8565LiSJTUSBGhFrgsEa/lGzTsSbT4rAWMmxj4XwAwsTOr4L0gR7i5+BxMVJgmxy8gfOK92EZgUjOLUo5qbtPUjXfBksb0KSF/Y8gBacO3MiSkElu45X6jUM2rq4W1yskBnCM7bL0Ocoq0Q=
+    - secure: aPp9VH79bmQiwSw3yYmbJoSRV5XuJXXQRyZSxhr4+mNVSVnE2q8e3RuGk7/odcYhwsbFy9DxqlKZl+4n5yemO0NXkDtf+aTGn/rEVIyMHWz4lqP0L08H2GPlVZcTy50F31tWpVFXawlElHgFKix1l6AFd3I5uNed1OXLtsZPjCKBr/5WYRxUAd02Ag0tkvhWXl+RBP2f0qN7vpHVDENhDeE0D/5tQklQ56vx3q7BlYo8eqp4MDpfTf1l8bwdY3kH6JjJlGpftjJ0lHGEXQwYZsh8plYM1dpWGcax2H7VgpEfj+nuZA17aeApHc+BpAOCvCwRV7xQiV5ZA49Y1kvlAzZ+aVyjaMZyWJjP84qwjy6SRLIogll7vMmfbEFGkivIajsmxkcd1+8xqqlc5ItqpJigVZctfPd1SRO7ZngDJApR9BRvKmmy8WmWTVx5F+mPFnIZn6m00HIC9toy/kUUH5z89120JZaeZGwshb7A0lJQEXdX1Yt8Bov2QM9V2BVt18vr2HhL8nYk6SpXj5GIGTkKxCzsPtoH1qHx8CyQOqyIJGs4F3zhX8seUauJUxrC0L5Aifo6u/Z++K44HBt0Yb4O7MUe/zlcFMDz+61zNMQLYV9N7dW2PDmAu7+bg9VeNqkkZyKhY4aB0E+8Fa7f/vuGdIqeAZCoCWwXXAKx8lc=
 
 notifications:
   email: false
