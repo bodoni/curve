@@ -1,14 +1,13 @@
 language: rust
 sudo: false
+
 rust:
   - stable
   - beta
   - nightly
 
 after_success:
-  - if [ "$TRAVIS_RUST_VERSION" == "nightly" ]; then
-      curl https://bodoni.github.io/travis/update_documentation.sh | bash;
-    fi
+  - curl https://bodoni.github.io/travis/documentation.sh | bash
 
 env:
   global:
