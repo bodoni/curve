@@ -4,6 +4,13 @@ use num::Float;
 
 use {Curve, Point, Trace};
 
+/// A linear Bézier curve.
+#[derive(Clone, Copy, Debug)]
+pub struct Linear<T: Float> {
+    a: Point<T>,
+    b: Point<T>,
+}
+
 /// A quadratic Bézier curve.
 #[derive(Clone, Copy, Debug)]
 pub struct Quadratic<T: Float> {
@@ -19,6 +26,20 @@ pub struct Cubic<T: Float> {
     b: Point<T>,
     c: Point<T>,
     d: Point<T>,
+}
+
+impl<T: Float> Linear<T> where Linear<T>: Curve<T> {
+    /// Create a curve.
+    #[inline]
+    pub fn new(a: Point<T>, b: Point<T>) -> Self {
+        Linear { a: a, b: b }
+    }
+
+    /// Start tracing the curve.
+    #[inline]
+    pub fn trace<'l>(&'l self, steps: usize) -> Trace<'l, T, Self> {
+        Trace::new(self, steps)
+    }
 }
 
 impl<T: Float> Quadratic<T> where Quadratic<T>: Curve<T> {
@@ -51,6 +72,17 @@ impl<T: Float> Cubic<T> where Cubic<T>: Curve<T> {
 
 macro_rules! implement {
     ($($float:ty),*) => ($(
+        impl Curve<$float> for Linear<$float> {
+            fn evaluate(&self, t1: $float) -> Point<$float> {
+                debug_assert!(0.0 <= t1 && t1 <= 1.0);
+                let &Linear { a, b } = self;
+                let c1 = 1.0 - t1;
+                let x = c1 * a.0 + t1 * b.0;
+                let y = c1 * a.1 + t1 * b.1;
+                (x, y)
+            }
+        }
+
         impl Curve<$float> for Quadratic<$float> {
             fn evaluate(&self, t1: $float) -> Point<$float> {
                 debug_assert!(0.0 <= t1 && t1 <= 1.0);
@@ -86,7 +118,14 @@ implement!(f32, f64);
 #[cfg(test)]
 mod tests {
     use assert;
-    use super::{Cubic, Quadratic};
+    use super::{Cubic, Linear, Quadratic};
+
+    #[test]
+    fn linear() {
+        let curve = Linear::new((1.0, 2.0), (5.0, 3.0));
+        let trace = vec![(1.0, 2.0), (3.0, 2.5), (5.0, 3.0)];
+        assert_eq!(trace, curve.trace(3).collect::<Vec<_>>());
+    }
 
     #[test]
     fn quadratic() {
