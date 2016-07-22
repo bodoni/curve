@@ -1,5 +1,8 @@
 //! Curves.
 
+#[cfg(test)]
+extern crate assert;
+
 extern crate num_traits as num;
 
 use num::Float;
@@ -24,14 +27,14 @@ pub struct Trace<'l, T: Float, C: 'l + Curve<T>> {
 }
 
 impl<'l, T: Float, C: Curve<T>> Trace<'l, T, C> {
-    #[inline(always)]
+    #[inline]
     fn new(curve: &'l C, steps: usize) -> Self {
         Trace { curve: curve, steps: steps, position: 0, phantom: PhantomData }
     }
 }
 
 macro_rules! implement {
-    ($float:ty) => (
+    ($($float:ty),*) => ($(
         impl<'l, T: Curve<$float>> Iterator for Trace<'l, $float, T> {
             type Item = Point<$float>;
 
@@ -45,10 +48,9 @@ macro_rules! implement {
                 }
             }
         }
-    );
+    )*);
 }
 
-implement!(f32);
-implement!(f64);
+implement!(f32, f64);
 
 pub mod bezier;
