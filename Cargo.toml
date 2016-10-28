@@ -1,10 +1,10 @@
 [package]
 name = "curve"
-version = "0.6.0"
+version = "0.6.1"
 license = "Apache-2.0/MIT"
 authors = ["Ivan Ukhov <ivan.ukhov@gmail.com>"]
 description = "The package provides curves."
-documentation = "https://bodoni.github.io/curve"
+documentation = "https://docs.rs/curve"
 homepage = "https://github.com/bodoni/curve"
 repository = "https://github.com/bodoni/curve"
 
