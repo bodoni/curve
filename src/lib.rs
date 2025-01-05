@@ -41,7 +41,7 @@ where
     }
 }
 
-impl<'l, T, U> Iterator for Trace<'l, T, U>
+impl<T, U> Iterator for Trace<'_, T, U>
 where
     T: Float,
     U: Evaluate<T>,
