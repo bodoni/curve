@@ -10,6 +10,12 @@ pub trait Evaluate<T: Float> {
     fn evaluate(&self, t: T) -> T;
 }
 
+/// A curve that can be split.
+pub trait Split<T: Float>: Sized {
+    /// Split the curve into several.
+    fn split(&self, n: usize) -> impl Iterator<Item = Self>;
+}
+
 /// A trace of a curve.
 #[derive(Clone, Copy, Debug)]
 pub struct Trace<'l, T: Float, C: 'l + Evaluate<T>> {

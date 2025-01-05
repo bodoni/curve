@@ -1,6 +1,7 @@
 //! Bézier curves.
 
 mod evaluate;
+mod split;
 mod trace;
 
 use num_traits::Float;
