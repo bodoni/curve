@@ -1,8 +1,8 @@
 //! Bézier curves.
 
-use num::Float;
+use num_traits::Float;
 
-use {Curve, Trace};
+use crate::{Curve, Trace};
 
 /// A linear Bézier curve.
 #[derive(Clone, Copy, Debug)]
@@ -32,7 +32,7 @@ impl<T: Float> Linear<T> {
     /// Create a curve.
     #[inline]
     pub fn new(a: T, b: T) -> Self {
-        Linear { a: a, b: b }
+        Linear { a, b }
     }
 }
 
@@ -40,7 +40,7 @@ impl<T: Float> Quadratic<T> {
     /// Create a curve.
     #[inline]
     pub fn new(a: T, b: T, c: T) -> Self {
-        Quadratic { a: a, b: b, c: c }
+        Quadratic { a, b, c }
     }
 }
 
@@ -48,7 +48,7 @@ impl<T: Float> Cubic<T> {
     /// Create a curve.
     #[inline]
     pub fn new(a: T, b: T, c: T, d: T) -> Self {
-        Cubic { a: a, b: b, c: c, d: d }
+        Cubic { a, b, c, d }
     }
 }
 
@@ -57,7 +57,7 @@ macro_rules! implement {
         impl<T: Float> $curve<T> where $curve<T>: Curve<T> {
             /// Start tracing the curve.
             #[inline]
-            pub fn trace<'l>(&'l self, steps: usize) -> Trace<'l, T, Self> {
+            pub fn trace(&self, steps: usize) -> Trace<'_, T, Self> {
                 Trace::new(self, steps)
             }
         }
@@ -71,7 +71,7 @@ macro_rules! implement {
         impl Curve<$float> for Linear<$float> {
             #[inline]
             fn evaluate(&self, t: $float) -> $float {
-                debug_assert!(0.0 <= t && t <= 1.0);
+                debug_assert!((0.0..=1.0).contains(&t));
                 (1.0 - t) * self.a + t * self.b
             }
         }
@@ -79,7 +79,7 @@ macro_rules! implement {
         impl Curve<$float> for Quadratic<$float> {
             #[inline]
             fn evaluate(&self, t: $float) -> $float {
-                debug_assert!(0.0 <= t && t <= 1.0);
+                debug_assert!((0.0..=1.0).contains(&t));
                 let c = 1.0 - t;
                 c * c * self.a + 2.0 * c * t * self.b + t * t * self.c
             }
@@ -88,7 +88,7 @@ macro_rules! implement {
         impl Curve<$float> for Cubic<$float> {
             #[inline]
             fn evaluate(&self, t: $float) -> $float {
-                debug_assert!(0.0 <= t && t <= 1.0);
+                debug_assert!((0.0..=1.0).contains(&t));
                 let c = 1.0 - t;
                 let c2 = c * c;
                 let t2 = t * t;
@@ -102,15 +102,18 @@ implement!(f32, f64);
 
 #[cfg(test)]
 mod tests {
-    use assert;
     use super::{Cubic, Linear, Quadratic};
+    use assert;
 
     #[test]
     fn linear() {
         let curve1 = Linear::new(1.0, 5.0);
         let curve2 = Linear::new(2.0, 3.0);
         let trace = vec![(1.0, 2.0), (3.0, 2.5), (5.0, 3.0)];
-        assert_eq!(trace, curve1.trace(3).zip(curve2.trace(3)).collect::<Vec<_>>());
+        assert_eq!(
+            trace,
+            curve1.trace(3).zip(curve2.trace(3)).collect::<Vec<_>>()
+        );
     }
 
     #[test]

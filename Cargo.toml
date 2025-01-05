@@ -1,7 +1,8 @@
 [package]
 name = "curve"
-version = "0.6.1"
-license = "Apache-2.0/MIT"
+version = "0.7.0"
+edition = "2021"
+license = "Apache-2.0 OR MIT"
 authors = ["Ivan Ukhov <ivan.ukhov@gmail.com>"]
 description = "The package provides curves."
 documentation = "https://docs.rs/curve"
@@ -9,7 +10,7 @@ homepage = "https://github.com/bodoni/curve"
 repository = "https://github.com/bodoni/curve"
 
 [dependencies]
-num-traits = "0.1"
+num-traits = "0.2"
 
 [dev-dependencies]
 assert = "0.7"

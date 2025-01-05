@@ -1,17 +1,13 @@
 //! Curves.
 
-#[cfg(test)]
-extern crate assert;
-
-extern crate num_traits as num;
-
-use num::Float;
 use std::marker::PhantomData;
+
+use num_traits::Float;
 
 /// A curve.
 pub trait Curve<T: Float> {
     /// Evalute the curve at a point in `[0, 1]`.
-    fn evaluate(&self, T) -> T;
+    fn evaluate(&self, t: T) -> T;
 }
 
 /// A trace of a curve.
@@ -26,7 +22,12 @@ pub struct Trace<'l, T: Float, C: 'l + Curve<T>> {
 impl<'l, T: Float, C: Curve<T>> Trace<'l, T, C> {
     #[inline]
     fn new(curve: &'l C, steps: usize) -> Self {
-        Trace { curve: curve, steps: steps, position: 0, phantom: PhantomData }
+        Trace {
+            curve,
+            steps,
+            position: 0,
+            phantom: PhantomData,
+        }
     }
 }
 
