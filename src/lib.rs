@@ -22,7 +22,7 @@ pub struct Trace<'l, T: Float, C: 'l + Curve<T>> {
 impl<'l, T: Float, C: Curve<T>> Trace<'l, T, C> {
     #[inline]
     fn new(curve: &'l C, steps: usize) -> Self {
-        Trace {
+        Self {
             curve,
             steps,
             position: 0,
