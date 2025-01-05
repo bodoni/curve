@@ -54,9 +54,8 @@ where
             return None;
         }
         self.position += 1;
-        T::from(position)
-            .zip(T::from(self.steps - 1))
-            .map(|(numerator, denominator)| self.curve.evaluate(numerator / denominator))
+        let t = T::from(position).unwrap() / T::from(self.steps - 1).unwrap();
+        Some(self.curve.evaluate(t))
     }
 }
 
