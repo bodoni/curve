@@ -32,7 +32,7 @@ impl<T: Float> Linear<T> {
     /// Create a curve.
     #[inline]
     pub fn new(a: T, b: T) -> Self {
-        Linear { a, b }
+        Self { a, b }
     }
 }
 
@@ -40,7 +40,7 @@ impl<T: Float> Quadratic<T> {
     /// Create a curve.
     #[inline]
     pub fn new(a: T, b: T, c: T) -> Self {
-        Quadratic { a, b, c }
+        Self { a, b, c }
     }
 }
 
@@ -48,7 +48,7 @@ impl<T: Float> Cubic<T> {
     /// Create a curve.
     #[inline]
     pub fn new(a: T, b: T, c: T, d: T) -> Self {
-        Cubic { a, b, c, d }
+        Self { a, b, c, d }
     }
 }
 
