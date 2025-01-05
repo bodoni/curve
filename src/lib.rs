@@ -4,22 +4,22 @@ use std::marker::PhantomData;
 
 use num_traits::Float;
 
-/// A curve.
-pub trait Curve<T: Float> {
+/// A curve that can be evaluated.
+pub trait Evaluate<T: Float> {
     /// Evalute the curve at a point in `[0, 1]`.
     fn evaluate(&self, t: T) -> T;
 }
 
 /// A trace of a curve.
 #[derive(Clone, Copy, Debug)]
-pub struct Trace<'l, T: Float, C: 'l + Curve<T>> {
+pub struct Trace<'l, T: Float, C: 'l + Evaluate<T>> {
     curve: &'l C,
     steps: usize,
     position: usize,
     phantom: PhantomData<T>,
 }
 
-impl<'l, T: Float, C: Curve<T>> Trace<'l, T, C> {
+impl<'l, T: Float, C: Evaluate<T>> Trace<'l, T, C> {
     #[inline]
     fn new(curve: &'l C, steps: usize) -> Self {
         Self {
@@ -33,7 +33,7 @@ impl<'l, T: Float, C: Curve<T>> Trace<'l, T, C> {
 
 macro_rules! implement {
     ($($float:ty),*) => ($(
-        impl<'l, T: Curve<$float>> Iterator for Trace<'l, $float, T> {
+        impl<'l, T: Evaluate<$float>> Iterator for Trace<'l, $float, T> {
             type Item = $float;
 
             fn next(&mut self) -> Option<Self::Item> {

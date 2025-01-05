@@ -1,11 +1,11 @@
 use num_traits::Float;
 
 use crate::bezier::{Cubic, Linear, Quadratic};
-use crate::{Curve, Trace};
+use crate::{Evaluate, Trace};
 
 macro_rules! implement {
     ($($curve:ident),*) => ($(
-        impl<T: Float> $curve<T> where $curve<T>: Curve<T> {
+        impl<T: Float> $curve<T> where $curve<T>: Evaluate<T> {
             /// Start tracing the curve.
             #[inline]
             pub fn trace(&self, steps: usize) -> Trace<'_, T, Self> {

@@ -1,16 +1,16 @@
 use crate::bezier::{Cubic, Linear, Quadratic};
-use crate::Curve;
+use crate::Evaluate;
 
 macro_rules! implement {
     ($($float:ty),*) => ($(
-        impl Curve<$float> for Linear<$float> {
+        impl Evaluate<$float> for Linear<$float> {
             fn evaluate(&self, t: $float) -> $float {
                 debug_assert!((0.0..=1.0).contains(&t));
                 (1.0 - t) * self.a + t * self.b
             }
         }
 
-        impl Curve<$float> for Quadratic<$float> {
+        impl Evaluate<$float> for Quadratic<$float> {
             fn evaluate(&self, t: $float) -> $float {
                 debug_assert!((0.0..=1.0).contains(&t));
                 let c = 1.0 - t;
@@ -18,7 +18,7 @@ macro_rules! implement {
             }
         }
 
-        impl Curve<$float> for Cubic<$float> {
+        impl Evaluate<$float> for Cubic<$float> {
             fn evaluate(&self, t: $float) -> $float {
                 debug_assert!((0.0..=1.0).contains(&t));
                 let c = 1.0 - t;
