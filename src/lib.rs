@@ -6,14 +6,14 @@ use num_traits::Float;
 
 /// A curve that can be evaluated.
 pub trait Evaluate<T: Float> {
-    /// Evalute the curve at a point in `[0, 1]`.
+    /// Evaluate the curve at a point in `[0, 1]`.
     fn evaluate(&self, t: T) -> T;
 }
 
-/// A curve that can be split.
-pub trait Split<T: Float>: Sized {
-    /// Split the curve into several.
-    fn split(&self, n: usize) -> impl Iterator<Item = Self>;
+/// A curve that can be subdivided.
+pub trait Subdivide<T: Float>: Sized {
+    /// Subdivide the curve into several.
+    fn subdivide(&self, n: usize) -> impl Iterator<Item = Self>;
 }
 
 /// A trace of a curve.

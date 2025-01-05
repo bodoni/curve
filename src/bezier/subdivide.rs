@@ -2,12 +2,12 @@
 // https://github.com/fonttools/fonttools/blob/main/Lib/fontTools/cu2qu/cu2qu.py
 
 use crate::bezier::Cubic;
-use crate::Split;
+use crate::Subdivide;
 
 macro_rules! implement {
     ($($float:ty),*) => ($(
-        impl Split<$float> for Cubic<$float> {
-            fn split(&self, n: usize) -> impl Iterator<Item = Self> {
+        impl Subdivide<$float> for Cubic<$float> {
+            fn subdivide(&self, n: usize) -> impl Iterator<Item = Self> {
                 let dt = 1.0 / n as $float;
                 let dt2 = dt * dt;
                 let dt3 = dt * dt2;
