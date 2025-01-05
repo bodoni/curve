@@ -15,7 +15,7 @@ macro_rules! implement {
                     .map(move |i| {
                         let t = i as $float * dt;
                         let t2 = t * t;
-                        Cubic {
+                        Self {
                             a: self.a * dt3,
                             b: (3.0 * self.a * t + self.b) * dt2,
                             c: (2.0 * self.b * t + self.c + 3.0 * self.a * t2) * dt,
