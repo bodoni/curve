@@ -18,16 +18,20 @@ pub trait Subdivide<T: Float>: Sized {
 
 /// A trace of a curve.
 #[derive(Clone, Copy, Debug)]
-pub struct Trace<'l, T: Float, C: 'l + Evaluate<T>> {
-    curve: &'l C,
+pub struct Trace<'l, T, U> {
+    curve: &'l U,
     steps: usize,
     position: usize,
     phantom: PhantomData<T>,
 }
 
-impl<'l, T: Float, C: Evaluate<T>> Trace<'l, T, C> {
+impl<'l, T, U> Trace<'l, T, U>
+where
+    T: Float,
+    U: Evaluate<T>,
+{
     #[inline]
-    fn new(curve: &'l C, steps: usize) -> Self {
+    fn new(curve: &'l U, steps: usize) -> Self {
         Self {
             curve,
             steps,
@@ -37,24 +41,23 @@ impl<'l, T: Float, C: Evaluate<T>> Trace<'l, T, C> {
     }
 }
 
-macro_rules! implement {
-    ($($float:ty),*) => ($(
-        impl<'l, T: Evaluate<$float>> Iterator for Trace<'l, $float, T> {
-            type Item = $float;
+impl<'l, T, U> Iterator for Trace<'l, T, U>
+where
+    T: Float,
+    U: Evaluate<T>,
+{
+    type Item = T;
 
-            fn next(&mut self) -> Option<Self::Item> {
-                let position = self.position;
-                if position < self.steps {
-                    self.position += 1;
-                    Some(self.curve.evaluate(position as $float / (self.steps - 1) as $float))
-                } else {
-                    None
-                }
-            }
+    fn next(&mut self) -> Option<Self::Item> {
+        let position = self.position;
+        if position >= self.steps {
+            return None;
         }
-    )*);
+        self.position += 1;
+        T::from(position)
+            .zip(T::from(self.steps - 1))
+            .map(|(numerator, denominator)| self.curve.evaluate(numerator / denominator))
+    }
 }
-
-implement!(f32, f64);
 
 pub mod bezier;
