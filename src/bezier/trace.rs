@@ -1,56 +1,7 @@
-//! Bézier curves.
-
 use num_traits::Float;
 
+use crate::bezier::{Cubic, Linear, Quadratic};
 use crate::{Curve, Trace};
-
-/// A linear Bézier curve.
-#[derive(Clone, Copy, Debug)]
-pub struct Linear<T: Float> {
-    a: T,
-    b: T,
-}
-
-/// A quadratic Bézier curve.
-#[derive(Clone, Copy, Debug)]
-pub struct Quadratic<T: Float> {
-    a: T,
-    b: T,
-    c: T,
-}
-
-/// A cubic Bézier curve.
-#[derive(Clone, Copy, Debug)]
-pub struct Cubic<T: Float> {
-    a: T,
-    b: T,
-    c: T,
-    d: T,
-}
-
-impl<T: Float> Linear<T> {
-    /// Create a curve.
-    #[inline]
-    pub fn new(a: T, b: T) -> Self {
-        Self { a, b }
-    }
-}
-
-impl<T: Float> Quadratic<T> {
-    /// Create a curve.
-    #[inline]
-    pub fn new(a: T, b: T, c: T) -> Self {
-        Self { a, b, c }
-    }
-}
-
-impl<T: Float> Cubic<T> {
-    /// Create a curve.
-    #[inline]
-    pub fn new(a: T, b: T, c: T, d: T) -> Self {
-        Self { a, b, c, d }
-    }
-}
 
 macro_rules! implement {
     ($($curve:ident),*) => ($(
@@ -66,44 +17,11 @@ macro_rules! implement {
 
 implement!(Linear, Quadratic, Cubic);
 
-macro_rules! implement {
-    ($($float:ty),*) => ($(
-        impl Curve<$float> for Linear<$float> {
-            #[inline]
-            fn evaluate(&self, t: $float) -> $float {
-                debug_assert!((0.0..=1.0).contains(&t));
-                (1.0 - t) * self.a + t * self.b
-            }
-        }
-
-        impl Curve<$float> for Quadratic<$float> {
-            #[inline]
-            fn evaluate(&self, t: $float) -> $float {
-                debug_assert!((0.0..=1.0).contains(&t));
-                let c = 1.0 - t;
-                c * c * self.a + 2.0 * c * t * self.b + t * t * self.c
-            }
-        }
-
-        impl Curve<$float> for Cubic<$float> {
-            #[inline]
-            fn evaluate(&self, t: $float) -> $float {
-                debug_assert!((0.0..=1.0).contains(&t));
-                let c = 1.0 - t;
-                let c2 = c * c;
-                let t2 = t * t;
-                c2 * c * self.a + 3.0 * c2 * t * self.b + 3.0 * c * t2 * self.c + t2 * t * self.d
-            }
-        }
-    )*);
-}
-
-implement!(f32, f64);
-
 #[cfg(test)]
 mod tests {
-    use super::{Cubic, Linear, Quadratic};
     use assert;
+
+    use crate::bezier::{Cubic, Linear, Quadratic};
 
     #[test]
     fn linear() {
