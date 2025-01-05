@@ -30,7 +30,7 @@ pub struct Cubic<T: Float> {
 }
 
 impl<T: Float> Linear<T> {
-    /// Create a curve.
+    /// Create an instance.
     #[inline]
     pub fn new(a: T, b: T) -> Self {
         Self { a, b }
@@ -38,7 +38,7 @@ impl<T: Float> Linear<T> {
 }
 
 impl<T: Float> Quadratic<T> {
-    /// Create a curve.
+    /// Create an instance.
     #[inline]
     pub fn new(a: T, b: T, c: T) -> Self {
         Self { a, b, c }
@@ -46,7 +46,7 @@ impl<T: Float> Quadratic<T> {
 }
 
 impl<T: Float> Cubic<T> {
-    /// Create a curve.
+    /// Create an instance.
     #[inline]
     pub fn new(a: T, b: T, c: T, d: T) -> Self {
         Self { a, b, c, d }
