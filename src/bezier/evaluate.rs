@@ -9,7 +9,8 @@ where
 {
     fn evaluate(&self, t: T) -> T {
         debug_assert!(T::zero() <= t && t <= T::one());
-        (T::one() - t) * self.a + t * self.b
+        let (a, b) = (T::one() - t, t);
+        self.a * a + self.b * b
     }
 }
 
@@ -19,9 +20,12 @@ where
 {
     fn evaluate(&self, t: T) -> T {
         debug_assert!(T::zero() <= t && t <= T::one());
-        let u = T::one() - t;
-        let two = T::one() + T::one();
-        u * u * self.a + two * u * t * self.b + t * t * self.c
+        let (a, b, c) = {
+            let _1 = T::one();
+            let u = _1 - t;
+            (u * u, (_1 + _1) * u * t, t * t)
+        };
+        self.a * a + self.b * b + self.c * c
     }
 }
 
@@ -31,10 +35,14 @@ where
 {
     fn evaluate(&self, t: T) -> T {
         debug_assert!(T::zero() <= t && t <= T::one());
-        let u = T::one() - t;
-        let u2 = u * u;
-        let t2 = t * t;
-        let three = T::one() + T::one() + T::one();
-        u2 * u * self.a + three * u2 * t * self.b + three * u * t2 * self.c + t2 * t * self.d
+        let (a, b, c, d) = {
+            let _1 = T::one();
+            let u = _1 - t;
+            let u2 = u * u;
+            let t2 = t * t;
+            let _3 = _1 + _1 + _1;
+            (u2 * u, _3 * u2 * t, _3 * u * t2, t2 * t)
+        };
+        self.a * a + self.b * b + self.c * c + self.d * d
     }
 }
