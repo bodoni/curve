@@ -1,6 +1,3 @@
-// Reference:
-// https://github.com/fonttools/fonttools/blob/main/Lib/fontTools/cu2qu/cu2qu.py
-
 use num_traits::Float;
 
 use crate::bezier::Cubic;
@@ -10,21 +7,21 @@ impl<T> Subdivide<T> for Cubic<T>
 where
     T: Float,
 {
-    fn subdivide(&self, n: usize) -> impl Iterator<Item = Self> {
-        let dt = T::from(n).unwrap().recip();
-        let dt2 = dt * dt;
-        let dt3 = dt * dt2;
-        let two = T::one() + T::one();
-        let three = two + T::one();
-        (0..n).map(move |i| {
-            let t = T::from(i).unwrap() * dt;
-            let t2 = t * t;
-            Self {
-                a: self.a * dt3,
-                b: (three * self.a * t + self.b) * dt2,
-                c: (two * self.b * t + self.c + three * self.a * t2) * dt,
-                d: self.a * t * t2 + self.b * t2 + self.c * t + self.d,
-            }
-        })
+    fn subdivide(&self, _: usize) -> impl Iterator<Item = Self> {
+        vec![].into_iter()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::bezier::Cubic;
+    use crate::Subdivide;
+
+    #[test]
+    fn subdivide() {
+        let x = Cubic::new(2.0, 4.0, 6.0, 8.0);
+        let y = Cubic::new(1.0, 2.0, 3.0, 4.0);
+        assert_eq!(x.subdivide(2).collect::<Vec<_>>(), vec![]);
+        assert_eq!(y.subdivide(2).collect::<Vec<_>>(), vec![]);
     }
 }
