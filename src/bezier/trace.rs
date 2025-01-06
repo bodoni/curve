@@ -4,8 +4,8 @@ use crate::bezier::{Cubic, Linear, Quadratic};
 use crate::{Evaluate, Trace};
 
 macro_rules! implement {
-    ($($curve:ident),*) => ($(
-        impl<T: Float> $curve<T> where $curve<T>: Evaluate<T> {
+    ($($type:ident),*) => ($(
+        impl<T: Float> $type<T> where $type<T>: Evaluate<T> {
             /// Start tracing the curve.
             #[inline]
             pub fn trace(&self, steps: usize) -> Trace<'_, T, Self> {

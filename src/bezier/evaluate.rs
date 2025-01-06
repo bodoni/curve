@@ -1,11 +1,11 @@
-use num_traits::{Float, One, Zero};
+use num_traits::Float;
 
 use crate::bezier::{Cubic, Linear, Quadratic};
 use crate::Evaluate;
 
 impl<T> Evaluate<T> for Linear<T>
 where
-    T: Float + One + Zero,
+    T: Float,
 {
     fn evaluate(&self, t: T) -> T {
         debug_assert!(T::zero() <= t && t <= T::one());
@@ -15,7 +15,7 @@ where
 
 impl<T> Evaluate<T> for Quadratic<T>
 where
-    T: Float + One + Zero,
+    T: Float,
 {
     fn evaluate(&self, t: T) -> T {
         debug_assert!(T::zero() <= t && t <= T::one());
@@ -27,7 +27,7 @@ where
 
 impl<T> Evaluate<T> for Cubic<T>
 where
-    T: Float + One + Zero,
+    T: Float,
 {
     fn evaluate(&self, t: T) -> T {
         debug_assert!(T::zero() <= t && t <= T::one());
