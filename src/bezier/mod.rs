@@ -7,15 +7,15 @@ mod trace;
 use num_traits::Float;
 
 /// A linear Bézier curve.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Linear<T: Float>([T; 2]);
 
 /// A quadratic Bézier curve.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Quadratic<T: Float>([T; 3]);
 
 /// A cubic Bézier curve.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Cubic<T: Float>([T; 4]);
 
 impl<T: Float> Linear<T> {

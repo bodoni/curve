@@ -19,8 +19,8 @@ pub trait Evaluate<T: Float> {
 
 /// A curve that can be subdivided.
 pub trait Subdivide<T: Float>: Sized {
-    /// Subdivide the curve into several.
-    fn subdivide(&self, n: usize) -> impl Iterator<Item = Self>;
+    /// Subdivide the curve into two.
+    fn subdivide(&self, t: T) -> (Self, Self);
 }
 
 pub mod bezier;
