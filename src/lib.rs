@@ -1,4 +1,13 @@
 //! Curves.
+//!
+//! # Example
+//!
+//! ```
+//! let x = curve::bezier::Linear::new(1.0, 5.0);
+//! let y = curve::bezier::Linear::new(2.0, 3.0);
+//! let points = x.trace(3).zip(y.trace(3)).collect::<Vec<_>>();
+//! assert_eq!(points, vec![(1.0, 2.0), (3.0, 2.5), (5.0, 3.0)]);
+//! ```
 
 use num_traits::Float;
 
