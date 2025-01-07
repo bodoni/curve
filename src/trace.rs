@@ -18,8 +18,9 @@ where
     T: Float,
     U: Evaluate<T>,
 {
+    /// Create an instance.
     #[inline]
-    pub(crate) fn new(curve: &'l U, steps: usize) -> Self {
+    pub fn new(curve: &'l U, steps: usize) -> Self {
         Self {
             curve,
             steps,
