@@ -2,14 +2,14 @@
 // https://pomax.github.io/bezierinfo/#reordering
 
 use crate::bezier::{Cubic, Quadratic};
-use crate::Raise;
+use crate::Expand;
 
 macro_rules! implement {
     ($($type:ty),*) => ($(
-        impl Raise<$type> for Quadratic<$type> {
+        impl Expand<$type> for Quadratic<$type> {
             type Target = Cubic<$type>;
 
-            fn raise(&self) -> Self::Target {
+            fn expand(&self) -> Self::Target {
                 let beta = self.0;
                 Self::Target::new(
                     beta[0],
@@ -27,15 +27,15 @@ implement!(f32, f64);
 #[cfg(test)]
 mod tests {
     use crate::bezier::{Cubic, Quadratic};
-    use crate::{Lower, Raise};
+    use crate::{Expand, Reduce};
 
     #[test]
-    fn raise() {
-        let x: Cubic<_> = Quadratic::new(-10.0, 50.0, 110.0).raise();
-        let y: Cubic<_> = Quadratic::new(0.0, 150.0, 0.0).raise();
+    fn expand() {
+        let x: Cubic<_> = Quadratic::new(-10.0, 50.0, 110.0).expand();
+        let y: Cubic<_> = Quadratic::new(0.0, 150.0, 0.0).expand();
         assert_eq!(x, Cubic::new(-10.0, 30.0, 70.0, 110.0));
         assert_eq!(y, Cubic::new(0.0, 100.0, 100.0, 0.0));
-        assert_eq!(x.lower(), Quadratic::new(-10.0, 50.0, 110.0));
-        assert_eq!(y.lower(), Quadratic::new(0.0, 150.0, 0.0));
+        assert_eq!(x.reduce(), Quadratic::new(-10.0, 50.0, 110.0));
+        assert_eq!(y.reduce(), Quadratic::new(0.0, 150.0, 0.0));
     }
 }
