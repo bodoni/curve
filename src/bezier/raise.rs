@@ -27,13 +27,15 @@ implement!(f32, f64);
 #[cfg(test)]
 mod tests {
     use crate::bezier::{Cubic, Quadratic};
-    use crate::Raise;
+    use crate::{Lower, Raise};
 
     #[test]
     fn raise() {
-        let x = Quadratic::new(-10.0, 50.0, 110.0).raise();
-        let y = Quadratic::new(0.0, 150.0, 0.0).raise();
+        let x: Cubic<_> = Quadratic::new(-10.0, 50.0, 110.0).raise();
+        let y: Cubic<_> = Quadratic::new(0.0, 150.0, 0.0).raise();
         assert_eq!(x, Cubic::new(-10.0, 30.0, 70.0, 110.0));
         assert_eq!(y, Cubic::new(0.0, 100.0, 100.0, 0.0));
+        assert_eq!(x.lower(), Quadratic::new(-10.0, 50.0, 110.0));
+        assert_eq!(y.lower(), Quadratic::new(0.0, 150.0, 0.0));
     }
 }
