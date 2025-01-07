@@ -17,13 +17,22 @@ pub trait Evaluate<T: Float> {
     fn evaluate(&self, t: T) -> T;
 }
 
-/// A curve that can be reduced to a lower-order one.
-pub trait Reduce<T: Float>: Sized {
-    /// The reduced curve.
+/// A curve whose order can be lowered.
+pub trait Lower<T: Float>: Sized {
+    /// The resulting curve.
     type Target;
 
     /// Perform the calculation.
-    fn reduce(&self) -> Self::Target;
+    fn lower(&self) -> Self::Target;
+}
+
+/// A curve whose order can be raised.
+pub trait Raise<T: Float>: Sized {
+    /// The resulting curve.
+    type Target;
+
+    /// Perform the calculation.
+    fn raise(&self) -> Self::Target;
 }
 
 /// A curve that can be subdivided into two at a point in `(0, 1)`.
