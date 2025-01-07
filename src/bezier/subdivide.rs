@@ -1,3 +1,6 @@
+// Reference:
+// https://pomax.github.io/bezierinfo/#splitting
+
 use num_traits::Float;
 
 use crate::bezier::Cubic;

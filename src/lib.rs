@@ -23,7 +23,7 @@ pub trait Reduce<T: Float>: Sized {
     type Target;
 
     /// Perform the calculation.
-    fn reduce(&self, tolerance: T) -> Option<Self::Target>;
+    fn reduce(&self) -> Self::Target;
 }
 
 /// A curve that can be subdivided into two at a point in `(0, 1)`.

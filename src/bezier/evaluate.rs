@@ -1,3 +1,6 @@
+// Reference:
+// https://pomax.github.io/bezierinfo/#decasteljau
+
 use num_traits::Float;
 
 use crate::bezier::{Cubic, Linear, Quadratic};
