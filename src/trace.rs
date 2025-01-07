@@ -8,8 +8,8 @@ use crate::Evaluate;
 #[derive(Clone, Copy, Debug)]
 pub struct Trace<'l, T, U> {
     curve: &'l U,
-    steps: usize,
-    position: usize,
+    point: usize,
+    points: usize,
     phantom: PhantomData<T>,
 }
 
@@ -20,11 +20,11 @@ where
 {
     /// Create an instance.
     #[inline]
-    pub fn new(curve: &'l U, steps: usize) -> Self {
+    pub fn new(curve: &'l U, points: usize) -> Self {
         Self {
             curve,
-            steps,
-            position: 0,
+            point: 0,
+            points,
             phantom: PhantomData,
         }
     }
@@ -38,12 +38,11 @@ where
     type Item = T;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let position = self.position;
-        if position >= self.steps {
+        if self.point >= self.points {
             return None;
         }
-        self.position += 1;
-        let t = T::from(position).unwrap() / T::from(self.steps - 1).unwrap();
-        Some(self.curve.evaluate(t))
+        let time = T::from(self.point).unwrap() / T::from(self.points - 1).unwrap();
+        self.point += 1;
+        Some(self.curve.evaluate(time))
     }
 }
