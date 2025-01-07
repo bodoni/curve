@@ -8,7 +8,7 @@ where
     T: Float + Default,
 {
     fn subdivide(&self, t: T) -> (Self, Self) {
-        debug_assert!(T::zero() <= t && t <= T::one());
+        debug_assert!(T::zero() < t && t < T::one());
         let u = T::one() - t;
         let mut beta = self.0;
 

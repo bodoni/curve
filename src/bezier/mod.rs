@@ -1,6 +1,7 @@
 //! Bézier curves.
 
 mod evaluate;
+mod reduce;
 mod subdivide;
 mod trace;
 
