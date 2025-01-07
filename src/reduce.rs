@@ -1,6 +1,6 @@
 use num_traits::Float;
 
-/// A curve whose order can be lowered.
+/// A curve that can be reduced into a lower-level one.
 pub trait Reduce<T: Float>: Sized {
     /// The resulting curve.
     type Target;

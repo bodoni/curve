@@ -1,6 +1,6 @@
 use num_traits::Float;
 
-/// A curve whose order can be raised.
+/// A curve that can be expanded into a higher-order one.
 pub trait Expand<T: Float>: Sized {
     /// The resulting curve.
     type Target;
