@@ -11,14 +11,16 @@
 
 pub mod bezier;
 
-mod approximate;
+mod approximation;
+mod compare;
 mod evaluate;
 mod expand;
 mod reduce;
 mod subdivide;
 mod trace;
 
-pub use approximate::Approximate;
+pub use approximation::Approximation;
+pub use compare::Compare;
 pub use evaluate::Evaluate;
 pub use expand::Expand;
 pub use reduce::Reduce;

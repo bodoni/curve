@@ -1,7 +1,7 @@
 use num_traits::Float;
 
 /// A curve that can be expanded into a higher-order one.
-pub trait Expand<T: Float>: Sized {
+pub trait Expand<T: Float> {
     /// The resulting curve.
     type Target;
 

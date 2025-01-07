@@ -1,10 +1,13 @@
 //! Bézier curves.
 
+mod comparison;
 mod evaluate;
 mod expand;
 mod reduce;
 mod subdivide;
 mod trace;
+
+pub use comparison::Comparison;
 
 use num_traits::Float;
 
