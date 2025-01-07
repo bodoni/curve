@@ -14,6 +14,7 @@ pub struct Approximation<'l, T, U, V> {
 
 impl<'l, T, U, V> Approximation<'l, T, U, V> {
     /// Create an instance.
+    #[inline]
     pub fn new(curve: &'l U, comparision: V) -> Self {
         Self {
             curve,
@@ -33,9 +34,10 @@ where
     type Item = Vec<<U as Reduce<T>>::Target>;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let candidate = self.curve.reduce();
-        if self.comparision.compare(self.curve, &candidate.expand()) {
-            Some(vec![candidate])
+        let reduced = self.curve.reduce();
+        let expanded = reduced.expand();
+        if self.comparision.compare(self.curve, &expanded) {
+            Some(vec![reduced])
         } else {
             None
         }
