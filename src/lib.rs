@@ -9,40 +9,16 @@
 //! assert_eq!(points, vec![(1.0, 2.0), (3.0, 2.5), (5.0, 3.0)]);
 //! ```
 
-use num_traits::Float;
-
-/// A curve that can be evaluated at a point in `[0, 1]`.
-pub trait Evaluate<T: Float> {
-    /// Perform the calculation.
-    fn evaluate(&self, t: T) -> T;
-}
-
-/// A curve whose order can be raised.
-pub trait Expand<T: Float>: Sized {
-    /// The resulting curve.
-    type Target;
-
-    /// Perform the calculation.
-    fn expand(&self) -> Self::Target;
-}
-
-/// A curve whose order can be lowered.
-pub trait Reduce<T: Float>: Sized {
-    /// The resulting curve.
-    type Target;
-
-    /// Perform the calculation.
-    fn reduce(&self) -> Self::Target;
-}
-
-/// A curve that can be subdivided into two at a point in `(0, 1)`.
-pub trait Subdivide<T: Float>: Sized {
-    /// Perform the calculation.
-    fn subdivide(&self, t: T) -> (Self, Self);
-}
-
 pub mod bezier;
 
+mod evaluate;
+mod expand;
+mod reduce;
+mod subdivide;
 mod trace;
 
+pub use evaluate::Evaluate;
+pub use expand::Expand;
+pub use reduce::Reduce;
+pub use subdivide::Subdivide;
 pub use trace::Trace;

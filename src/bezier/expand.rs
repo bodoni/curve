@@ -2,7 +2,7 @@
 // https://pomax.github.io/bezierinfo/#reordering
 
 use crate::bezier::{Cubic, Quadratic};
-use crate::Expand;
+use crate::expand::Expand;
 
 macro_rules! implement {
     ($($type:ty),*) => ($(
@@ -27,7 +27,8 @@ implement!(f32, f64);
 #[cfg(test)]
 mod tests {
     use crate::bezier::{Cubic, Quadratic};
-    use crate::{Expand, Reduce};
+    use crate::expand::Expand;
+    use crate::reduce::Reduce;
 
     #[test]
     fn expand() {

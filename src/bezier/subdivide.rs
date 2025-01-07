@@ -4,7 +4,7 @@
 use num_traits::Float;
 
 use crate::bezier::Cubic;
-use crate::Subdivide;
+use crate::subdivide::Subdivide;
 
 impl<T> Subdivide<T> for Cubic<T>
 where
@@ -47,7 +47,7 @@ where
 #[cfg(test)]
 mod tests {
     use crate::bezier::Cubic;
-    use crate::Subdivide;
+    use crate::subdivide::Subdivide;
 
     #[test]
     fn subdivide() {

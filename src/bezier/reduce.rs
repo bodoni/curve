@@ -2,7 +2,7 @@
 // https://pomax.github.io/bezierinfo/#reordering
 
 use crate::bezier::{Cubic, Quadratic};
-use crate::Reduce;
+use crate::reduce::Reduce;
 
 macro_rules! implement {
     ($($type:ty),*) => ($(
@@ -26,7 +26,7 @@ implement!(f32, f64);
 #[cfg(test)]
 mod tests {
     use crate::bezier::{Cubic, Quadratic};
-    use crate::Reduce;
+    use crate::reduce::Reduce;
 
     #[test]
     fn reduce() {

@@ -4,7 +4,7 @@
 use num_traits::Float;
 
 use crate::bezier::{Cubic, Linear, Quadratic};
-use crate::Evaluate;
+use crate::evaluate::Evaluate;
 
 impl<T> Evaluate<T> for Linear<T>
 where

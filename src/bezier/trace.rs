@@ -1,8 +1,8 @@
 use num_traits::Float;
 
 use crate::bezier::{Cubic, Linear, Quadratic};
+use crate::evaluate::Evaluate;
 use crate::trace::Trace;
-use crate::Evaluate;
 
 macro_rules! implement {
     ($($type:ident),*) => ($(
