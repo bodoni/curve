@@ -2,6 +2,7 @@
 
 pub mod comparison;
 
+mod align;
 mod evaluate;
 mod expand;
 mod reduce;

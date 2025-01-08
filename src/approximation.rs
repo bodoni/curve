@@ -1,5 +1,6 @@
 use num_traits::Float;
 
+use crate::align::Align;
 use crate::compare::Compare;
 use crate::expand::Expand;
 use crate::reduce::Reduce;
@@ -31,14 +32,14 @@ impl<T, U, V> Iterator for Approximation<T, U, V>
 where
     T: Float,
     U: Reduce<T> + Subdivide<T>,
-    <U as Reduce<T>>::Target: Expand<T, Target = U>,
+    <U as Reduce<T>>::Target: Align<T, U> + Expand<T, Target = U>,
     V: Compare<U>,
 {
     type Item = <U as Reduce<T>>::Target;
 
     fn next(&mut self) -> Option<Self::Item> {
         while let Some(original) = self.curves.pop() {
-            let reduced = original.reduce();
+            let reduced = original.reduce().align(&original);
             let expanded = reduced.expand();
             if self.comparision.compare(&original, &expanded) {
                 return Some(reduced);
