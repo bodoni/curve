@@ -41,7 +41,7 @@ where
         while let Some(original) = self.curves.pop() {
             let reduced = original.reduce().align(&original);
             let expanded = reduced.expand();
-            if self.goodness.admit(&original, &expanded) {
+            if self.goodness.admit(&original, &expanded)? {
                 return Some(reduced);
             }
             let (head, tail) = original.subdivide(self.time);
@@ -60,8 +60,8 @@ mod tests {
     use crate::expand::Expand;
 
     #[test]
-    fn approximate() {
-        let goodness = CrudeIndependentAbsolute::new(1.0);
+    fn approximate_complete() {
+        let goodness = CrudeIndependentAbsolute::new(1.0, usize::MAX);
         let x = Cubic::new(0.0, 0.0, 90.0, 100.0);
         let y = Cubic::new(0.0, 50.0, 0.0, 0.0);
         assert_eq!(
@@ -71,8 +71,19 @@ mod tests {
     }
 
     #[test]
+    fn approximate_incomplete() {
+        let goodness = CrudeIndependentAbsolute::new(1.0, 2);
+        let x = Cubic::new(0.0, 0.0, 90.0, 100.0);
+        let y = Cubic::new(0.0, 50.0, 0.0, 0.0);
+        assert_eq!(
+            render(Approximation::new((x, y), goodness)),
+            "M0,0 Q1,18,14,21 Q28,24,46,19",
+        );
+    }
+
+    #[test]
     fn exact() {
-        let goodness = CrudeIndependentAbsolute::new(1e-6);
+        let goodness = CrudeIndependentAbsolute::new(1e-6, usize::MAX);
         let x = Quadratic::new(0.0, 50.0, 100.0).expand();
         let y = Quadratic::new(0.0, 100.0, 0.0).expand();
         assert_eq!(
