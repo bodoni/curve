@@ -10,12 +10,11 @@ macro_rules! implement {
             type Target = Cubic<$type>;
 
             fn expand(&self) -> Self::Target {
-                let beta = self.0;
                 Self::Target::new(
-                    beta[0],
-                    (2.0 * beta[1] + beta[0]) / 3.0,
-                    (beta[2] + 2.0 * beta[1]) / 3.0,
-                    beta[2],
+                    self[0],
+                    (2.0 * self[1] + self[0]) / 3.0,
+                    (self[2] + 2.0 * self[1]) / 3.0,
+                    self[2],
                 )
             }
         }

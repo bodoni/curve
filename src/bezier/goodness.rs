@@ -6,11 +6,11 @@ use crate::bezier::Cubic;
 use crate::goodness::Goodness;
 
 /// A goodness of fit based on the coordinate-wise absolute distance between control points.
-pub struct IndependentCrudeAbsolute<T: Float> {
+pub struct CrudeIndependentAbsolute<T: Float> {
     tolerance: T,
 }
 
-impl<T: Float> IndependentCrudeAbsolute<T> {
+impl<T: Float> CrudeIndependentAbsolute<T> {
     /// Create an instance.
     #[inline]
     pub fn new(tolerance: T) -> Self {
@@ -18,13 +18,13 @@ impl<T: Float> IndependentCrudeAbsolute<T> {
     }
 }
 
-impl<T: Float> Goodness<Cubic<T>> for IndependentCrudeAbsolute<T> {
+impl<T: Float> Goodness<Cubic<T>> for CrudeIndependentAbsolute<T> {
     fn admit(&self, candidate: &Cubic<T>, original: &Cubic<T>) -> bool {
         absolute(candidate.0, original.0, self.tolerance)
     }
 }
 
-impl<T: Float> Goodness<(Cubic<T>, Cubic<T>)> for IndependentCrudeAbsolute<T> {
+impl<T: Float> Goodness<(Cubic<T>, Cubic<T>)> for CrudeIndependentAbsolute<T> {
     fn admit(&self, candidate: &(Cubic<T>, Cubic<T>), original: &(Cubic<T>, Cubic<T>)) -> bool {
         absolute(candidate.0 .0, original.0 .0, self.tolerance)
             && absolute(candidate.1 .0, original.1 .0, self.tolerance)

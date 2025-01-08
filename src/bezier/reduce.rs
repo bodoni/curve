@@ -10,11 +10,10 @@ macro_rules! implement {
             type Target = Quadratic<$type>;
 
             fn reduce(&self) -> Self::Target {
-                let beta = self.0;
                 Self::Target::new(
-                    0.95 * beta[0] + 0.15 * beta[1] - 0.15 * beta[2] + 0.05 * beta[3],
-                    -0.25 * beta[0] + 0.75 * beta[1] + 0.75 * beta[2] - 0.25 * beta[3],
-                    0.05 * beta[0] - 0.15 * beta[1] + 0.15 * beta[2] + 0.95 * beta[3],
+                    0.95 * self[0] + 0.15 * self[1] - 0.15 * self[2] + 0.05 * self[3],
+                    -0.25 * self[0] + 0.75 * self[1] + 0.75 * self[2] - 0.25 * self[3],
+                    0.05 * self[0] - 0.15 * self[1] + 0.15 * self[2] + 0.95 * self[3],
                 )
             }
         }
