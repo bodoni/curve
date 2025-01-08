@@ -14,6 +14,11 @@ pub struct CrudeIndependentAbsolute<T: Float> {
 
 impl<T: Float> CrudeIndependentAbsolute<T> {
     /// Create an instance.
+    ///
+    /// `proximity` dictates the maximum absolute coordinate-wise distance between the control
+    /// points of a candidate curve and an original one, and `fragmentation` dictates the maximum
+    /// number of admission checks, typically corresponding to the number of subdivisions during an
+    /// approximation process.
     #[inline]
     pub fn new(proximity: T, fragmentation: usize) -> Self {
         Self {
