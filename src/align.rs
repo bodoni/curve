@@ -1,6 +1,6 @@
 use num_traits::Float;
 
-/// A curve that can be expanded into a higher-order one.
+/// A curve that can be aligned with another one.
 pub trait Align<T: Float, U> {
     /// Perform the calculation.
     fn align(self, other: &U) -> Self;
