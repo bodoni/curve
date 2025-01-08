@@ -1,6 +1,6 @@
 //! Bézier curves.
 
-pub mod comparison;
+pub mod goodness;
 
 mod align;
 mod evaluate;

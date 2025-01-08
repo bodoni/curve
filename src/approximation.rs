@@ -1,15 +1,15 @@
 use num_traits::Float;
 
 use crate::align::Align;
-use crate::compare::Compare;
 use crate::expand::Expand;
+use crate::goodness::Goodness;
 use crate::reduce::Reduce;
 use crate::subdivide::Subdivide;
 
 /// An approximation of a curve.
 pub struct Approximation<T, U, V> {
     curves: Vec<U>,
-    comparision: V,
+    goodness: V,
     time: T,
 }
 
@@ -18,11 +18,11 @@ where
     T: Float,
 {
     /// Create an instance.
-    pub fn new(curve: U, comparision: V) -> Self {
+    pub fn new(curve: U, goodness: V) -> Self {
         let one = T::one();
         Self {
             curves: vec![curve],
-            comparision,
+            goodness,
             time: one / (one + one),
         }
     }
@@ -33,7 +33,7 @@ where
     T: Float,
     U: Reduce<T> + Subdivide<T>,
     <U as Reduce<T>>::Target: Align<T, U> + Expand<T, Target = U>,
-    V: Compare<U>,
+    V: Goodness<U>,
 {
     type Item = <U as Reduce<T>>::Target;
 
@@ -41,7 +41,7 @@ where
         while let Some(original) = self.curves.pop() {
             let reduced = original.reduce().align(&original);
             let expanded = reduced.expand();
-            if self.comparision.compare(&original, &expanded) {
+            if self.goodness.admit(&original, &expanded) {
                 return Some(reduced);
             }
             let (head, tail) = original.subdivide(self.time);

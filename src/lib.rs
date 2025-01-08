@@ -13,18 +13,18 @@ pub mod bezier;
 
 mod align;
 mod approximation;
-mod compare;
 mod evaluate;
 mod expand;
+mod goodness;
 mod reduce;
 mod subdivide;
 mod trace;
 
 pub use align::Align;
 pub use approximation::Approximation;
-pub use compare::Compare;
 pub use evaluate::Evaluate;
 pub use expand::Expand;
+pub use goodness::Goodness;
 pub use reduce::Reduce;
 pub use subdivide::Subdivide;
 pub use trace::Trace;
