@@ -51,3 +51,33 @@ where
         None
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::approximation::Approximation;
+    use crate::bezier::goodness::CrudeIndependentAbsolute;
+    use crate::bezier::Quadratic;
+    use crate::expand::Expand;
+
+    #[test]
+    fn exact() {
+        let goodness = CrudeIndependentAbsolute::new(1e-6);
+        let x = Quadratic::new(0.0, 50.0, 100.0).expand();
+        let y = Quadratic::new(0.0, 100.0, 0.0).expand();
+        assert_eq!(
+            render(Approximation::new((x, y), goodness)),
+            "M0,0 Q50,100,100,0 Z",
+        );
+    }
+
+    fn render<T>(curves: T) -> String
+    where
+        T: Iterator<Item = (Quadratic<f64>, Quadratic<f64>)>,
+    {
+        let data = curves
+            .map(|(x, y)| format!("Q{:.0},{:.0},{:.0},{:.0}", x[1], y[1], x[2], y[2]))
+            .collect::<Vec<_>>()
+            .join(" ");
+        format!(r"M0,0 {data} Z")
+    }
+}
