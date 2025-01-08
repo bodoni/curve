@@ -83,7 +83,7 @@ mod tests {
 
     #[test]
     fn exact() {
-        let goodness = CrudeIndependentAbsolute::new(1e-6, usize::MAX);
+        let goodness = CrudeIndependentAbsolute::new(0.0, usize::MAX);
         let x = Quadratic::new(0.0, 50.0, 100.0).expand();
         let y = Quadratic::new(0.0, 100.0, 0.0).expand();
         assert_eq!(

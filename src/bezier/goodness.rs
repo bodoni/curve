@@ -62,8 +62,8 @@ impl<T: Float + std::fmt::Debug> Goodness<(Cubic<T>, Cubic<T>)> for CrudeIndepen
 
 #[rustfmt::skip]
 fn absolute<T: Float>(one: [T; 4], other: [T; 4], distance: T) -> bool {
-    (one[0] - other[0]).abs() < distance &&
-    (one[1] - other[1]).abs() < distance &&
-    (one[2] - other[2]).abs() < distance &&
-    (one[3] - other[3]).abs() < distance
+    (one[0] - other[0]).abs() <= distance &&
+    (one[1] - other[1]).abs() <= distance &&
+    (one[2] - other[2]).abs() <= distance &&
+    (one[3] - other[3]).abs() <= distance
 }
