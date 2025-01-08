@@ -56,8 +56,19 @@ where
 mod tests {
     use crate::approximation::Approximation;
     use crate::bezier::goodness::CrudeIndependentAbsolute;
-    use crate::bezier::Quadratic;
+    use crate::bezier::{Cubic, Quadratic};
     use crate::expand::Expand;
+
+    #[test]
+    fn approximate() {
+        let goodness = CrudeIndependentAbsolute::new(1.0);
+        let x = Cubic::new(0.0, 0.0, 90.0, 100.0);
+        let y = Cubic::new(0.0, 50.0, 0.0, 0.0);
+        assert_eq!(
+            render(Approximation::new((x, y), goodness)),
+            "M0,0 Q1,18,14,21 Q28,24,46,19 Q65,13,80,7 Q96,1,100,0",
+        );
+    }
 
     #[test]
     fn exact() {
@@ -66,7 +77,7 @@ mod tests {
         let y = Quadratic::new(0.0, 100.0, 0.0).expand();
         assert_eq!(
             render(Approximation::new((x, y), goodness)),
-            "M0,0 Q50,100,100,0 Z",
+            "M0,0 Q50,100,100,0",
         );
     }
 
@@ -74,10 +85,10 @@ mod tests {
     where
         T: Iterator<Item = (Quadratic<f64>, Quadratic<f64>)>,
     {
-        let data = curves
+        let curves = curves
             .map(|(x, y)| format!("Q{:.0},{:.0},{:.0},{:.0}", x[1], y[1], x[2], y[2]))
             .collect::<Vec<_>>()
             .join(" ");
-        format!(r"M0,0 {data} Z")
+        format!(r"M0,0 {curves}")
     }
 }
