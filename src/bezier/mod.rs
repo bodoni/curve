@@ -1,25 +1,24 @@
 //! Bézier curves.
 
-mod comparison;
+pub mod comparison;
+
 mod evaluate;
 mod expand;
 mod reduce;
 mod subdivide;
 mod trace;
 
-pub use comparison::Comparison;
-
 use num_traits::Float;
 
-/// A linear Bézier curve.
+/// A linear curve.
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Linear<T: Float>([T; 2]);
 
-/// A quadratic Bézier curve.
+/// A quadratic curve.
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Quadratic<T: Float>([T; 3]);
 
-/// A cubic Bézier curve.
+/// A cubic curve.
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct Cubic<T: Float>([T; 4]);
 
