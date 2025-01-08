@@ -13,8 +13,8 @@ where
 {
     #[inline]
     fn subdivide(&self, t: T) -> (Self, Self) {
-        let one = self.0.subdivide(t);
-        let other = self.1.subdivide(t);
-        ((one.0, other.0), (one.1, other.1))
+        let x = self.0.subdivide(t);
+        let y = self.1.subdivide(t);
+        ((x.0, y.0), (x.1, y.1))
     }
 }
