@@ -100,6 +100,6 @@ mod tests {
             .map(|(x, y)| format!("Q{:.0},{:.0},{:.0},{:.0}", x[1], y[1], x[2], y[2]))
             .collect::<Vec<_>>()
             .join(" ");
-        format!(r"M0,0 {curves}")
+        format!("M0,0 {curves}")
     }
 }
