@@ -7,7 +7,8 @@ use crate::goodness::Goodness;
 
 /// A goodness of fit based on the coordinate-wise absolute distance between control points.
 pub struct CrudeIndependentAbsolute<T: Float> {
-    distance: T,
+    absolute_distance: T,
+    relative_distance: T,
     subdivision: usize,
     index: usize,
 }
@@ -15,13 +16,20 @@ pub struct CrudeIndependentAbsolute<T: Float> {
 impl<T: Float> CrudeIndependentAbsolute<T> {
     /// Create an instance.
     ///
-    /// `distance` dictates the maximum absolute coordinate-wise distance between the control
-    /// points of a candidate curve and an original one, and `subdivision` dictates the maximum
-    /// number of subdivisions during an approximation process.
+    /// * `absolute_distance` dictates the maximum coordinate-wise distance between the control
+    /// points of a candidate curve and an original one.
+    ///
+    /// * `relative_distance` dictates the maximum coordinate-wise distance between the control
+    /// points of a candidate curve and an original one relative to the largest coordinate-wise
+    /// distance between the endpoints.
+    ///
+    /// * `subdivision` dictates the maximum number of subdivisions that can be made during an
+    /// approximation process.
     #[inline]
-    pub fn new(distance: T, subdivision: usize) -> Self {
+    pub fn new(absolute_distance: T, relative_distance: T, subdivision: usize) -> Self {
         Self {
-            distance,
+            absolute_distance,
+            relative_distance,
             subdivision,
             index: 0,
         }
@@ -30,7 +38,9 @@ impl<T: Float> CrudeIndependentAbsolute<T> {
 
 impl<T: Float> Goodness<Cubic<T>> for CrudeIndependentAbsolute<T> {
     fn admit(&mut self, candidate: &Cubic<T>, original: &Cubic<T>) -> Option<bool> {
-        if absolute(candidate.0, original.0, self.distance) {
+        let size = (original.0[0] - original.0[3]).abs();
+        let distance = self.absolute_distance.min(self.relative_distance * size);
+        if admit(candidate.0, original.0, distance) {
             return Some(true);
         }
         if self.index < self.subdivision {
@@ -41,14 +51,20 @@ impl<T: Float> Goodness<Cubic<T>> for CrudeIndependentAbsolute<T> {
     }
 }
 
-impl<T: Float + std::fmt::Debug> Goodness<(Cubic<T>, Cubic<T>)> for CrudeIndependentAbsolute<T> {
+impl<T: Float> Goodness<(Cubic<T>, Cubic<T>)> for CrudeIndependentAbsolute<T> {
     fn admit(
         &mut self,
         candidate: &(Cubic<T>, Cubic<T>),
         original: &(Cubic<T>, Cubic<T>),
     ) -> Option<bool> {
-        if absolute(candidate.0 .0, original.0 .0, self.distance)
-            && absolute(candidate.1 .0, original.1 .0, self.distance)
+        let size = {
+            let width = (original.0[0] - original.0[3]).abs();
+            let height = (original.1[0] - original.1[3]).abs();
+            width.max(height)
+        };
+        let distance = self.absolute_distance.min(self.relative_distance * size);
+        if admit(candidate.0 .0, original.0 .0, distance)
+            && admit(candidate.1 .0, original.1 .0, distance)
         {
             return Some(true);
         }
@@ -61,7 +77,7 @@ impl<T: Float + std::fmt::Debug> Goodness<(Cubic<T>, Cubic<T>)> for CrudeIndepen
 }
 
 #[rustfmt::skip]
-fn absolute<T: Float>(one: [T; 4], other: [T; 4], distance: T) -> bool {
+fn admit<T: Float>(one: [T; 4], other: [T; 4], distance: T) -> bool {
     (one[0] - other[0]).abs() <= distance &&
     (one[1] - other[1]).abs() <= distance &&
     (one[2] - other[2]).abs() <= distance &&

@@ -61,7 +61,7 @@ mod tests {
 
     #[test]
     fn approximate_complete() {
-        let goodness = CrudeIndependentAbsolute::new(1.0, usize::MAX);
+        let goodness = CrudeIndependentAbsolute::new(1.0, f64::MAX, usize::MAX);
         let x = Cubic::new(0.0, 0.0, 90.0, 100.0);
         let y = Cubic::new(0.0, 50.0, 0.0, 0.0);
         assert_eq!(
@@ -72,7 +72,7 @@ mod tests {
 
     #[test]
     fn approximate_incomplete() {
-        let goodness = CrudeIndependentAbsolute::new(1.0, 2);
+        let goodness = CrudeIndependentAbsolute::new(1.0, f64::MAX, 2);
         let x = Cubic::new(0.0, 0.0, 90.0, 100.0);
         let y = Cubic::new(0.0, 50.0, 0.0, 0.0);
         assert_eq!(
@@ -83,7 +83,7 @@ mod tests {
 
     #[test]
     fn exact() {
-        let goodness = CrudeIndependentAbsolute::new(0.0, usize::MAX);
+        let goodness = CrudeIndependentAbsolute::new(0.0, 0.0, usize::MAX);
         let x = Quadratic::new(0.0, 50.0, 100.0).expand();
         let y = Quadratic::new(0.0, 100.0, 0.0).expand();
         assert_eq!(
