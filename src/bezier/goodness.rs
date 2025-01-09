@@ -17,14 +17,14 @@ impl<T: Float> CrudeIndependentAbsolute<T> {
     /// Create an instance.
     ///
     /// * `absolute_distance` dictates the maximum coordinate-wise distance between the control
-    /// points of a candidate curve and an original one.
+    ///   points of a candidate curve and an original one.
     ///
     /// * `relative_distance` dictates the maximum coordinate-wise distance between the control
-    /// points of a candidate curve and an original one relative to the largest coordinate-wise
-    /// distance between the endpoints.
+    ///   points of a candidate curve and an original one relative to the largest coordinate-wise
+    ///   distance between the endpoints.
     ///
     /// * `subdivision` dictates the maximum number of subdivisions that can be made during an
-    /// approximation process.
+    ///   approximation process.
     #[inline]
     pub fn new(absolute_distance: T, relative_distance: T, subdivision: usize) -> Self {
         Self {
