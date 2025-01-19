@@ -10,7 +10,9 @@ impl<T> Evaluate<T> for Linear<T>
 where
     T: Float,
 {
-    fn evaluate(&self, t: T) -> T {
+    type Target = T;
+
+    fn evaluate(&self, t: T) -> Self::Target {
         debug_assert!(T::zero() <= t && t <= T::one());
         let u = T::one() - t;
         let beta = self.0;
@@ -22,7 +24,9 @@ impl<T> Evaluate<T> for Quadratic<T>
 where
     T: Float,
 {
-    fn evaluate(&self, t: T) -> T {
+    type Target = T;
+
+    fn evaluate(&self, t: T) -> Self::Target {
         debug_assert!(T::zero() <= t && t <= T::one());
         let u = T::one() - t;
         let mut beta = self.0;
@@ -36,7 +40,9 @@ impl<T> Evaluate<T> for Cubic<T>
 where
     T: Float,
 {
-    fn evaluate(&self, t: T) -> T {
+    type Target = T;
+
+    fn evaluate(&self, t: T) -> Self::Target {
         debug_assert!(T::zero() <= t && t <= T::one());
         let u = T::one() - t;
         let mut beta = self.0;
