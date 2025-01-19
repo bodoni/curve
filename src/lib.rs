@@ -6,10 +6,11 @@
 //!
 //! ```
 //! use curve::bezier::Linear;
+//! use curve::Trace;
 //!
 //! let x = Linear::new(1.0, 5.0);
 //! let y = Linear::new(2.0, 3.0);
-//! let points = x.trace(3).zip(y.trace(3)).collect::<Vec<_>>();
+//! let points = Trace::new(&x, 3).zip(Trace::new(&y, 3)).collect::<Vec<_>>();
 //! assert_eq!(points, vec![(1.0, 2.0), (3.0, 2.5), (5.0, 3.0)]);
 //! ```
 //!

@@ -7,7 +7,6 @@ mod evaluate;
 mod expand;
 mod reduce;
 mod subdivide;
-mod trace;
 
 /// A linear curve.
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
