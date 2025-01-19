@@ -6,21 +6,21 @@ use crate::Evaluate;
 
 /// A trace of a curve.
 #[derive(Clone, Copy, Debug)]
-pub struct Trace<'l, T, U> {
-    curve: &'l U,
+pub struct Trace<T, U> {
+    curve: U,
     points: usize,
     index: usize,
     phantom: PhantomData<T>,
 }
 
-impl<'l, T, U> Trace<'l, T, U>
+impl<T, U> Trace<T, U>
 where
     T: Float,
     U: Evaluate<T>,
 {
     /// Create an instance.
     #[inline]
-    pub fn new(curve: &'l U, points: usize) -> Self {
+    pub fn new(curve: U, points: usize) -> Self {
         Self {
             curve,
             points,
@@ -30,7 +30,7 @@ where
     }
 }
 
-impl<T, U> Iterator for Trace<'_, T, U>
+impl<T, U> Iterator for Trace<T, U>
 where
     T: Float,
     U: Evaluate<T>,
@@ -61,7 +61,7 @@ mod tests {
         let trace = vec![(1.0, 2.0), (3.0, 2.5), (5.0, 3.0)];
         assert_eq!(
             trace,
-            Trace::new(&x, 3).zip(Trace::new(&y, 3)).collect::<Vec<_>>()
+            Trace::new(x, 3).zip(Trace::new(y, 3)).collect::<Vec<_>>()
         );
     }
 
@@ -81,7 +81,7 @@ mod tests {
             (4.5555555555555554e+00, 2.5925925925925926e+00),
             (5.0000000000000000e+00, 3.0000000000000000e+00),
         ];
-        for (i, (x, y)) in Trace::new(&x, 10).zip(Trace::new(&y, 10)).enumerate() {
+        for (i, (x, y)) in Trace::new(x, 10).zip(Trace::new(y, 10)).enumerate() {
             assert::close(trace[i].0, x, 1e-15);
             assert::close(trace[i].1, y, 1e-15);
         }
@@ -103,7 +103,7 @@ mod tests {
             (5.6310013717421121e+00, 2.2304526748971192e+00),
             (6.0000000000000000e+00, 2.0000000000000000e+00),
         ];
-        for (i, (x, y)) in Trace::new(&x, 10).zip(Trace::new(&y, 10)).enumerate() {
+        for (i, (x, y)) in Trace::new(x, 10).zip(Trace::new(y, 10)).enumerate() {
             assert::close(trace[i].0, x, 1e-15);
             assert::close(trace[i].1, y, 1e-15);
         }
